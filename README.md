@@ -1,3 +1,6 @@
+# Pizza App
+
+Example: http://reactjs-pizza.11121.ru<br />
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

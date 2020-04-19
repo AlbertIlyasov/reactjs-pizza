@@ -1,0 +1,29 @@
+body {
+  /* background: #e9ecef; */
+}
+
+.product {
+  /* border-radius: 26px 26px 26px 26px;
+  -moz-border-radius: 26px 26px 26px 26px;
+  -webkit-border-radius: 26px 26px 26px 26px; */
+  border: 1px solid silver;
+}
+
+.product .product__img img {
+  width: 150px;
+  height: 150px;
+}
+
+.product .product__title {
+  font-weight: bold;
+  text-align: center;
+}
+
+.product .product__price {
+  color: #001122;
+  text-align: right;
+}
+
+.product .product__price::before {
+  content: "$";
+}
