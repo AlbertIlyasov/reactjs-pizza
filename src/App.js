@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react'
 import Header from './components/Header/'
 import Products from './components/Products/'
 import Loader from './components/Loader/'
+import Context from './Context'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
 
 export default () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [keyword, setKeyword] = useState('')
 
   useEffect(() => {
+    document.title = 'Pizza Delivery - React App'
     setProducts([
       {
         id: 10,
@@ -22,12 +26,12 @@ export default () => {
         img: "img/product/pizza.jpg",
         name: "Cheese pizza",
         price: 74,
-        qty: 111,
+        qty: 1,
       },
       {
         id: 30,
         img: "img/product/pizza.jpg",
-        name: "Pizza №3",
+        name: "Pepperoni pizza",
         price: 33,
         qty: 0,
       },
@@ -56,19 +60,39 @@ export default () => {
       .then(() => setLoading(false))
   }, [])
 
+  function cartUpdate(id, qty) {
+    setProducts(products.map(product => {
+      if (id === product.id && product.qty + qty >= 0) {
+        product.qty += qty
+      }
+      return product
+    }))
+  }
+
+  function filterProducts(e) {
+    setKeyword(e.target.value.trim())
+  }
+
   console.log('App render', new Date())
   return (
-    <>
+    <Context.Provider value={{cartUpdate}}>
       <Header />
       <div className="container">
         { loading
           ? <Loader />
           : ( products.length
-            ? <Products products={products} />
+            ? (
+                <>
+                  <div className="row search-box">
+                    <input placeholder="Search" onChange={filterProducts} />
+                  </div>
+                  <Products products={products} keyword={keyword} />
+                </>
+              )
             : <div>No products.</div>
           )
         }
       </div>
-    </>
+    </Context.Provider>
   )
 }
