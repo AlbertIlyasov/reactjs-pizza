@@ -17,36 +17,33 @@ function Product({ product }) {
         {product.price}
       </div>
       <div className="row">
-        <div className="col product__qty">
+        <div className="col product__qty justify-content-center">
           { product.qty
             ? (
-                <>
-                  In the cart:
-                  &nbsp;
-
-                  <button className="btn btn-danger"
+                <div className="justify-content-center">
+                  <button className="btn btn-primary"
                     onClick={cartUpdate.bind(null, product.id, -1)}>
                   &nbsp;-&nbsp;
                   </button>
 
-                  &nbsp;&nbsp;
+                  &nbsp;
                   {product.qty}
-                  &nbsp;&nbsp;
+                  &nbsp;
 
-                  <button className="btn btn-success"
+                  <button className="btn btn-primary"
                     onClick={cartUpdate.bind(null, product.id, 1)}>
                   &nbsp;+&nbsp;
                   </button>
 
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;
 
                   <button className="btn btn-warning"
                     onClick={cartUpdate.bind(null, product.id, -product.qty)}>
                     Remove
                   </button>
-                </>
+                </div>
               )
-            : <button className="btn btn-primary btn-block"
+            : <button className="btn btn-primary"
                 onClick={cartUpdate.bind(null, product.id, 1)}>
                 Add to cart
               </button>

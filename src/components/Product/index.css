@@ -1,5 +1,5 @@
 :root {
-  --block-width: 320px;
+  --block-width: 220px;
 }
 
 .product {
@@ -32,5 +32,5 @@
 .product .product__qty {
   padding: 0;
   height: 100px;
-  justify-content: center;
+  text-align: center;
 }
