@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
+import Context from '../../context'
 import PropTypes from 'prop-types'
-import Context from '../../Context'
+import { cartItemButtons } from '../../pages/Cart/'
 import './index.css'
 
 function Product({ product }) {
@@ -20,27 +21,8 @@ function Product({ product }) {
         <div className="col product__qty justify-content-center">
           { product.qty
             ? (
-                <div className="justify-content-center">
-                  <button className="btn btn-primary"
-                    onClick={cartUpdate.bind(null, product.id, -1)}>
-                  &nbsp;-&nbsp;
-                  </button>
-
-                  &nbsp;
-                  {product.qty}
-                  &nbsp;
-
-                  <button className="btn btn-primary"
-                    onClick={cartUpdate.bind(null, product.id, 1)}>
-                  &nbsp;+&nbsp;
-                  </button>
-
-                  &nbsp;&nbsp;
-
-                  <button className="btn btn-warning"
-                    onClick={cartUpdate.bind(null, product.id, -product.qty)}>
-                    Remove
-                  </button>
+                <div className="cart-item">
+                  {cartItemButtons(product, cartUpdate)}
                 </div>
               )
             : <button className="btn btn-primary"

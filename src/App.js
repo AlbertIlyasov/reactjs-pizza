@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import Context from './context'
 import Header from './components/Header/'
-import Products from './components/Products/'
-import Loader from './components/Loader/'
-import Cart from './components/Cart/'
-import Context from './Context'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { useRoutes } from './router.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
@@ -11,25 +10,15 @@ export default () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [keyword, setKeyword] = useState('')
-  const [page, setPage] = useState('pizza')
-
-  let pageName
-  const pageNames = [
-    {
-      page: 'pizza',
-      pageName: 'Pizza',
-    },
-    {
-      page: 'cart',
-      pageName: 'Cart',
-    }
-  ]
-  pageNames
-    .filter(props => props.page === page)
-    .map(props => pageName = props.pageName)
+  const [title, setTitle] = useState('')
+  const route = useRoutes()
+  const deliveryCost = 10
 
   useEffect(() => {
-    document.title = 'Pizza Delivery - React App'
+    document.title = title + ' - Pizza Delivery - React App'
+  }, [title])
+
+  useEffect(() => {
     setProducts([
       {
         id: 10,
@@ -70,7 +59,6 @@ export default () => {
     setLoading(false)
     return
 
-    // fetch('index.php')
     fetch('http://jsonplaceholder.typicode.com/todos?_limit=7')
       .then(response => response.json())
       .then(json => setProducts(json))
@@ -90,42 +78,29 @@ export default () => {
     setKeyword(e.target.value.trim())
   }
 
-  function activatePage(page) {
-    setPage(page)
-  }
-
   console.log('App render', new Date())
   return (
-    <Context.Provider value={{cartUpdate}}>
-      <Header page={page} activatePage={activatePage} />
-      <div className="container">
-        <div className="row justify-content-center">
-          <h1>{pageName}</h1>
+    <Context.Provider value={{
+      setTitle,
+      loading,
+      products,
+      filterProducts,
+      keyword,
+      cartUpdate,
+      deliveryCost
+    }}>
+      <Router>
+        <Header />
+        <div className="container">
+          <div className="row justify-content-center">
+            <h1>{title}</h1>
+          </div>
+          <div className="body">
+            {route}
+          </div>
         </div>
-        { 'pizza' === page &&
-          ( loading
-            ? <Loader />
-            : ( products.length
-              ? (
-                  <>
-                    <div className="row search-box">
-                      <input placeholder="Search" onChange={filterProducts} />
-                    </div>
-                    <Products products={products} keyword={keyword} />
-                  </>
-                )
-              : <div>No products.</div>
-            )
-          )
-        }
-        { 'cart' === page &&
-          ( loading
-            ? <Loader />
-            : <Cart products={products} cartUpdate={cartUpdate}/>
-          )
-        }
-      </div>
-      <footer/>
+        <footer/>
+      </Router>
     </Context.Provider>
   )
 }

@@ -31,6 +31,7 @@
 
 .product .product__qty {
   padding: 0;
+  padding-top: 5px;
   height: 100px;
   text-align: center;
 }
