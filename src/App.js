@@ -13,13 +13,16 @@ export default () => {
   const [title, setTitle] = useState('')
   const route = useRoutes()
   const deliveryCost = 10
+  const cartStorageName = 'cart'
+  const cart = JSON.parse(localStorage.getItem(cartStorageName)) || []
 
   useEffect(() => {
     document.title = title + ' - Pizza Delivery - React App'
   }, [title])
 
   useEffect(() => {
-    setProducts([
+    //temporary emulate loaded data from backend
+    const loadedProducts = [
       {
         id: 10,
         img: 'img/product/pizza.jpg',
@@ -55,7 +58,17 @@ export default () => {
         price: 55,
         qty: 0,
       },
-    ])
+    ]
+    loadedProducts.map(props => {
+      cart.map(cartItemProps => {
+          if (cartItemProps.id === props.id) {
+            props.qty = cartItemProps.qty
+          }
+        })
+      return props
+    })
+
+    setProducts(loadedProducts)
     setLoading(false)
     return
 
@@ -65,6 +78,14 @@ export default () => {
       .then(() => setLoading(false))
   }, [])
 
+  function updateStorage() {
+    localStorage.setItem(cartStorageName, JSON.stringify(
+      products
+        .filter(props => props.qty)
+        .map(props => ({id: props.id, qty: props.qty}))
+    ))
+  }
+
   function cartUpdate(id, qty) {
     setProducts(products.map(product => {
       if (id === product.id && product.qty + qty >= 0) {
@@ -72,6 +93,7 @@ export default () => {
       }
       return product
     }))
+    updateStorage()
   }
 
   function filterProducts(e) {
