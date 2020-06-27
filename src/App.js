@@ -17,7 +17,8 @@ export default () => {
   const cart = JSON.parse(localStorage.getItem(cartStorageName)) || []
 
   useEffect(() => {
-    document.title = title + ' - Pizza Delivery - React App'
+    const titlePieces = [title, 'Pizza Delivery - React App']
+    document.title = titlePieces.filter(piece => piece).join(' - ')
   }, [title])
 
   useEffect(() => {
@@ -96,6 +97,18 @@ export default () => {
     updateStorage()
   }
 
+  function cartClean() {
+    setProducts(products.map(product => {
+      product.qty = 0
+      return product
+    }))
+    updateStorage()
+  }
+
+  function isCartEmpty() {
+    return !products.filter(product => product.qty).length
+  }
+
   function filterProducts(e) {
     setKeyword(e.target.value.trim())
   }
@@ -109,6 +122,8 @@ export default () => {
       filterProducts,
       keyword,
       cartUpdate,
+      cartClean,
+      isCartEmpty,
       deliveryCost
     }}>
       <Router>

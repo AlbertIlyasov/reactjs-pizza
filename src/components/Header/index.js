@@ -9,6 +9,7 @@ export default () => (
       <nav className="my-2 my-md-0 mr-md-3">
         <NavLink to="/catalog" className="p-2 text-dark">Pizza</NavLink>
         <NavLink to="/cart" className="p-2 text-dark">Cart</NavLink>
+        <NavLink to="/checkout" className="p-2 text-dark">Checkout</NavLink>
         <NavLink to="/register" className="p-2 text-dark">Sign up</NavLink>
         <NavLink to="/login" className="p-2 text-dark">Sign in</NavLink>
       </nav>

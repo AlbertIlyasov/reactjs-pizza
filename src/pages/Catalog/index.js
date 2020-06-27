@@ -12,9 +12,7 @@ export const Catalog = () => {
     keyword
   } = useContext(Context)
 
-  useEffect(() => {
-    setTitle('Pizza')
-  }, [setTitle])
+  useEffect(() => setTitle('Pizza'), [setTitle])
 
   if (loading) {
     return <Loader />

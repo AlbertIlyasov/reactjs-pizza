@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import Context from '../../context'
 import Loader from '../../components/Loader/'
+import { NavLink } from 'react-router-dom'
 import './index.css'
 
 function cartItemButtons(product, cartUpdate) {
@@ -26,12 +27,11 @@ function Cart() {
     loading,
     products,
     cartUpdate,
+    cartClean,
     deliveryCost
   } = useContext(Context)
 
-  useEffect(()=>{
-    setTitle('Cart')
-  }, [setTitle])
+  useEffect(() => setTitle('Cart'), [setTitle])
 
   if (loading) {
     return <Loader />
@@ -69,33 +69,44 @@ function Cart() {
     return <div className="row justify-content-center">Cart is empty.</div>
   }
 
-  const cartSummaryNameClass = 'offset-3 col-4 offset-md-4 col-md-2 cart-summary__name'
-  const cartSummaryValueClass = 'col-3 col-md-2 cart-summary__value'
+  const cartSummaryNameClass = 'offset-1 offset-md-3 col-5 col-md-3 cart-summary__name'
+  const cartSummaryValueClass = 'col-5 col-md-3 cart-summary__value'
   return (
     <>
       {list}
+      <div className="row d-flex justify-content-center cart-checkout-button">
+        <button className="btn btn-danger" onClick={cartClean}>
+          Remove all
+        </button>
+      </div>
       <div className="cart-summary">
         <div className="row">
-
           <div className={cartSummaryNameClass}>Qty:</div>
           <div className={cartSummaryValueClass}>{qty}</div>
-
+        </div>
+        <div className="row">
           <div className={cartSummaryNameClass}>Total:</div>
           <div className={cartSummaryValueClass}>
             <span className="cart-summary__price">{total}</span>
           </div>
-
+        </div>
+        <div className="row">
           <div className={cartSummaryNameClass}>Delivery:</div>
           <div className={cartSummaryValueClass}>
             <span className="cart-summary__price">{deliveryCost}</span>
           </div>
-
+        </div>
+        <div className="row">
           <div className={cartSummaryNameClass}>Final:</div>
           <div className={cartSummaryValueClass}>
             <span className="cart-summary__price">{total + deliveryCost}</span>
           </div>
-
         </div>
+      </div>
+      <div className="row d-flex justify-content-center cart-checkout-button">
+        <NavLink to="/checkout" className="btn btn-primary">
+          Checkout
+        </NavLink>
       </div>
     </>
   )
